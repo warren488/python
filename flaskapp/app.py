@@ -1,15 +1,16 @@
 from flask import Flask, jsonify, request
+from index import index
 
 app = Flask(__name__)
 
 @app.route('/', methods=["POST","GET"])
-def index():
-    return jsonify({"name":"warren"})
+def indexf():
+    return index()
 
 
 @app.route('/post', methods=["POST"])
 def post():
-    return jsonify(request.json)
+    return request.url
 
 @app.route('/show/<string:id>')
 def show(id):
