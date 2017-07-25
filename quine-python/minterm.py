@@ -1,7 +1,7 @@
 from binary import binary
 
 class Minterm:
-    def __init__(self, decimal):
+    def __init__(self, decimal, digits):
         self.matched = False
         self.ones = 0
         self.minterm = decimal
@@ -12,6 +12,10 @@ class Minterm:
         for x in self.bin:
             if x == 1:
                 self.ones += 1
+
+        if (len(self.bin) < digits):
+            for i in range(digits - len(self.bin)):
+                self.bin.insert(0,0)
 
     def getOnes(self):
         return self.ones

@@ -29,6 +29,16 @@ def initial_input_prompt(invalidterms, organizedminterms):
     choice = input("If you wish to add any terms enter 'a' \nif you wish to delete terms enter 'd' \nor press enter to continue")
     return choice
 
-def delete(original, deletions):
-    for i in deletions:
-        original.remove(i)
+def compare(term1, term2):
+    count = 0
+    i1 = term1.getImp()
+    i2 = term2.getImp()
+
+    for i in range(len(i2)):
+        if i2[i] != i1[i]:
+            count += 1
+            diff = i
+        if count > 1:
+            return -1
+    
+    return diff

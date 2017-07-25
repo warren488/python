@@ -1,7 +1,7 @@
 from minterm import Minterm
 
 class Implicant:
-    def __init__(self, imp1, imp2, bit_dif = -1):
+    def __init__(self, imp1, imp2, bit_dif):
         self.matched = False
         self.minterms = []
         self.bin = imp1.getImp()

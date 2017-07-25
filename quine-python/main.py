@@ -1,7 +1,8 @@
 import sys
 import math
+from Implicant import Implicant
 from minterm import Minterm
-from helpers import filter_input, initial_input_prompt
+from helpers import filter_input, initial_input_prompt, compare
 
 
 def main():
@@ -42,12 +43,12 @@ def main():
     print("number of bits ",number_of_digits)
     largest_number_of_ones = -1
     for term in organizedminterms:
-        push_on = Minterm(int(term))
+        push_on = Minterm(int(term), number_of_digits)
         binary_minterms.append(push_on)
         if push_on.getOnes() > largest_number_of_ones:
             largest_number_of_ones = push_on.getOnes()
     
-    for i in range(largest_number_of_ones):
+    for i in range(largest_number_of_ones+1):
         temp_ith_array = []
         for min in binary_minterms:
             if min.getOnes() == i:
@@ -59,11 +60,31 @@ def main():
     for i in organized_binary_minterms:
         # The i in organized_binary_minterms just happened to be numbers because of use case, i seems to just take on the value of the key
         print(i,":")
-        print(organized_binary_minterms[i][0].getImp())
-        print(organized_binary_minterms[i][1].getImp())
+        for imp in organized_binary_minterms[i]:
+            print(imp.getImp())
+        print("of ",len(organized_binary_minterms[i]))
 
-    for i in range(largest_number_of_ones - 1):
-        if organized_binary_minterms.has_key(i) & organized_binary_minterms.has_key(i+1):
+
+
+    Implicants = {}
+    for i in range(largest_number_of_ones+1):
+        temp_list = []
+        if (i in organized_binary_minterms) & ((i+1) in organized_binary_minterms):
+            print("we got {} and {}".format(i, i+1))
+            for mint in organized_binary_minterms[i]:
+                for com_mint in organized_binary_minterms[i+1]:
+                    diff = compare(mint, com_mint)
+                    if diff > -1:
+                        mint.toggleMatched()
+                        com_mint.toggleMatched()
+                        temp_list.append(Implicant(mint, com_mint, diff))
+        
+        if len(temp_list) > 0:
+            Implicants[i] = temp_list
+    print(Implicants)
+
+                    
+
             
 
     
