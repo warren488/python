@@ -2,7 +2,7 @@ import sys
 import math
 from Implicant import Implicant
 from minterm import Minterm
-from helpers import filter_input, initial_input_prompt, compare
+from helpers import filter_input, initial_input_prompt, compare, mainloop
 
 
 def main():
@@ -65,24 +65,43 @@ def main():
         print("of ",len(organized_binary_minterms[i]))
 
 
+    # essentian_PI = []
+    # matched_groups = []
+    # Implicants = {}
+    # for i in range(largest_number_of_ones+1):
+    #     if not i in organized_binary_minterms:
+    #         continue
 
-    Implicants = {}
-    for i in range(largest_number_of_ones+1):
-        temp_list = []
-        if (i in organized_binary_minterms) & ((i+1) in organized_binary_minterms):
-            print("we got {} and {}".format(i, i+1))
-            for mint in organized_binary_minterms[i]:
-                for com_mint in organized_binary_minterms[i+1]:
-                    diff = compare(mint, com_mint)
-                    if diff > -1:
-                        mint.toggleMatched()
-                        com_mint.toggleMatched()
-                        temp_list.append(Implicant(mint, com_mint, diff))
+    #     temp_list = []
+    #     if (i in organized_binary_minterms) & ((i+1) in organized_binary_minterms):
+    #         print("we got {} and {}".format(i, i+1))
+    #         matched_groups.append(i)
+    #         for mint in organized_binary_minterms[i]:
+    #             for com_mint in organized_binary_minterms[i+1]:
+    #                 diff = compare(mint, com_mint)
+    #                 if diff > -1:
+    #                     mint.toggleMatched()
+    #                     com_mint.toggleMatched()
+    #                     temp_list.append(Implicant(mint, com_mint, diff))
+
+    #             if not mint.isMatched():
+    #                 essentian_PI.append(mint)
         
-        if len(temp_list) > 0:
-            Implicants[i] = temp_list
-    print(Implicants)
+    #     else:
+    #         for mint in organized_binary_minterms[i]:
+    #             if not mint.isMatched():
+    #                 essentian_PI.append(mint)            
 
+    #     if len(temp_list) > 0:
+    #         Implicants[i] = temp_list
+    
+    # # missing unmatched implicants
+    # for i in Implicants:
+    #     print(i,":")
+    #     for imp in Implicants[i]:
+    #         print(imp.getImp())
+
+    essentials = mainloop(largest_number_of_ones, organized_binary_minterms)
                     
 
             

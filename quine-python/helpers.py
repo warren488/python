@@ -1,3 +1,4 @@
+from Implicant import Implicant
 
 
 def filter_input(minterms):
@@ -42,3 +43,48 @@ def compare(term1, term2):
             return -1
     
     return diff
+
+def mainloop(num_ones, bin_terms):
+
+    essentian_PI = []
+    # matched_groups = []
+    Implicants = {0:"start"}
+    while len(Implicants.keys()) > 0:
+        Implicants = {}
+        for i in range(num_ones+1):
+            if not i in bin_terms:
+                continue
+
+            temp_list = []
+            if (i in bin_terms) & ((i+1) in bin_terms):
+                print("we got {} and {}".format(i, i+1))
+                # matched_groups.append(i)
+                for mint in bin_terms[i]:
+                    for com_mint in bin_terms[i+1]:
+                        diff = compare(mint, com_mint)
+                        if diff > -1:
+                            mint.toggleMatched()
+                            com_mint.toggleMatched()
+                            temp_list.append(Implicant(mint, com_mint, diff))
+
+                    if not mint.isMatched():
+                        essentian_PI.append(mint)
+            
+            else:
+                for mint in bin_terms[i]:
+                    if not mint.isMatched():
+                        essentian_PI.append(mint)            
+
+            if len(temp_list) > 0:
+                Implicants[i] = temp_list
+
+        bin_terms = Implicants
+
+        for i in Implicants:
+            print("in func")
+            print(i,":")
+            for imp in Implicants[i]:
+                print(imp.getImp())
+    for mint in essentian_PI:
+        print(mint.getImp())
+    return essentian_PI
